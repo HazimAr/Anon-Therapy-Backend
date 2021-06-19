@@ -46,10 +46,11 @@ io.on("connection", (socket) => {
         socket.join(room);
 
         currentRoom = room;
-        callback(true, true);
+        callback(true, true, false);
         socket.to(room).emit("start");
       } else {
-        socket.send("full");
+        // Room is full
+        callback(false, false, true);
       }
     } else {
       rooms.push({
@@ -64,7 +65,7 @@ io.on("connection", (socket) => {
       socket.join(room);
       currentRoom = room;
 
-      callback(false, false);
+      callback(false, false, false);
     }
     console.log(rooms[0].users);
   });
